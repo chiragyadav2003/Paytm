@@ -1,5 +1,5 @@
 {
-  "name": "my-turborepo",
+  "name": "paytm",
   "private": true,
   "scripts": {
     "build": "turbo build",
