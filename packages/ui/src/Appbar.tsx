@@ -1,16 +1,21 @@
 import { Button } from "./button";
 
-interface AppbarProps{
-    user ?: {
-        name ?:string|null
+interface AppbarProps {
+    user?: {
+        name?: string | null;
     },
-    onSignin:any,
-    onSignout:any
+    // TODO: can u figure out what the type should be here?
+    onSignin: any,
+    onSignout: any
 }
 
-export const Appbar = ({user,onSignin,onSignout}:AppbarProps)=>{
-    return (
-        <div className="flex justify-between border-b px-4">
+export const Appbar = ({
+    user,
+    onSignin,
+    onSignout
+}: AppbarProps) => {
+    return ( 
+    <div className="flex justify-between border-b px-4">
         <div className="text-lg flex flex-col justify-center">
             PayTM
         </div>
@@ -18,5 +23,4 @@ export const Appbar = ({user,onSignin,onSignout}:AppbarProps)=>{
             <Button onClick={user ? onSignout : onSignin}>{user ? "Logout" : "Login"}</Button>
         </div>
     </div>
-    )
-}
+)}
