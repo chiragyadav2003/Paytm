@@ -36,6 +36,8 @@ export const authOptions = {
                     return null;
                 }
 
+                //TODO: Add functionality - send otp to user for login
+
                 try {
                     const user = await db.user.create({
                         data:{
@@ -47,7 +49,7 @@ export const authOptions = {
                     return {
                         id:user.id.toString(),
                         name:user.name,
-                        number:user.number
+                        email:user.number
                     }
                 } catch (error) {
                     console.log(error)
