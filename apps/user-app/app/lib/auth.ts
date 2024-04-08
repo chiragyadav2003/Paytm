@@ -30,7 +30,8 @@ export const authOptions = {
                         return {
                             id:existingUser.id.toString(),
                             name:existingUser.name,
-                            email:existingUser.number //BUG: check error  
+                            email:existingUser.number, //BUG: check error  
+                            number:existingUser.number
                         }
                     }
                     return null;
@@ -49,7 +50,8 @@ export const authOptions = {
                     return {
                         id:user.id.toString(),
                         name:user.name,
-                        email:user.number
+                        email:user.number,
+                        number:user.number
                     }
                 } catch (error) {
                     console.log(error)
@@ -63,8 +65,13 @@ export const authOptions = {
     secret:process.env.JWT_SECRET || "secret",
     callbacks:{
         //TODO: fix type here
+        async jwt({token,user}:any){
+            if(user) token.phoneNumber = user.number;
+            return token;
+        },
         async session({token,session}:any){
-            session.user.id = token.sub
+            session.user.userId = token.sub
+            session.user.number = token.phoneNumber
             return session
         }
     }
