@@ -6,9 +6,9 @@ interface cardProps{
 
 export function Card({className="empty",title,children}:cardProps): JSX.Element {
   return (
-    <div className={className==="empty"?"border p-4":`${className}`} >
+    <div className={className==="empty"?"border p-6 bg-white rounded-xl bg-[#ededed]":`${className}`} >
       <h1 className="text-xl border-b pb-2">{title}</h1>
-      <p>{children}</p>
+      <div>{children}</div>
     </div>
   );
 }
