@@ -70,7 +70,7 @@ export const authOptions = {
             return token;
         },
         async session({token,session}:any){
-            session.user.userId = token.sub
+            session.user.id = token.sub
             session.user.number = token.phoneNumber
             return session
         }
