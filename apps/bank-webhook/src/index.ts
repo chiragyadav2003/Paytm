@@ -20,6 +20,14 @@ app.post("/hdfcWebhook", async(req,res)=>{
         amount:req.body.amount
     };
 
+    // console.log("Payment information = ", paymentInformation)
+    //note: payload is off type
+    // {
+    //     "token" :"131.42753102933113",
+    //     "user_identifier":"16",
+    //     "amount": "110000"
+    // }
+
     //init transaction
     try {
         await db.$transaction([
