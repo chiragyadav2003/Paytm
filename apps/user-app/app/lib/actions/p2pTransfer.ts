@@ -22,13 +22,31 @@ export async function p2pTransfer(to:string,amount:number){
     });
 
     if(!toUser){
-        return {
-            message:"User not found"
-        }
+        console.log("beneficiary not exist")
+        throw new Error ("User not found")
     };
 
-    await prisma.$transaction(async()=>{
-        const fromBalance = await prisma.balance.findUnique({
+    await prisma.$transaction(async(tx)=>{
+
+        //NOTE - row locking
+        // tx.$queryRaw is a method provided by Prisma to execute raw SQL queries within a transaction context.
+        // The FOR UPDATE clause is used to apply an exclusive lock on the selected rows. This ensures that other transactions attempting to read or modify the same rows will be blocked until the lock is released.
+
+        //NOTE: prisma does not support lock out of the box, so we will use this syntax
+        
+        await tx.$queryRaw`SELECT * FROM "Balance" WHERE "userId"=${Number(from)} FOR UPDATE`
+
+        //* this syntax give error
+        // await tx.balance.findUnique({
+        //     where:{
+        //         userId:Number(from)
+        //     },
+        //     lock:{
+        //         mode:'update'
+        //     }
+        // })
+
+        const fromBalance = await tx.balance.findUnique({
             where:{
                 userId:Number(from)
             }
@@ -38,7 +56,11 @@ export async function p2pTransfer(to:string,amount:number){
             throw new Error("Insufficient balance")
         }
 
-        await prisma.balance.update({
+        // console.log("before sleep")
+        // await new Promise(resolve=>setTimeout(resolve,5000))
+        // console.log("after sleep")
+
+        await tx.balance.update({
             where:{
                 userId:Number(from)
             },
@@ -49,7 +71,7 @@ export async function p2pTransfer(to:string,amount:number){
             }
         })
 
-        await prisma.balance.update({
+        await tx.balance.update({
             where:{
                 userId:toUser.id
             },
