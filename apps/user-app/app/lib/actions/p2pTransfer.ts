@@ -4,33 +4,41 @@ import { authOptions } from "../auth"
 import { getServerSession } from "next-auth"
 import prisma from "@repo/db/client"
 
-export async function p2pTransfer(to: string, amount: number) {
-    //to - it is phone number of receiver/beneficiary
-    const session = await getServerSession(authOptions)
-
-    const from = session?.user?.id;
-    if (!from) {
-        return {
-            message: "Error while sending: User not authenticated",
-            success: false
-        };
+//NOTE - defining custom error class for p2pTransfer
+class p2pTransferError extends Error {
+    statusCode: number;
+    success: boolean
+    constructor(message?: string, statusCode: number = 404, success: boolean = false) {
+        super(message || "User not found");
+        this.success = success;
+        this.statusCode = statusCode;
     }
+}
 
-    const toUser = await prisma.user.findFirst({
-        where: {
-            number: String(to)
-        }
-    });
-
-    if (!toUser) {
-        console.log("beneficiary not exist")
-        return {
-            message: "Error while sending: Beneficiary not found",
-            success: false
-        };
-    };
+export async function p2pTransfer(to: string, amount: number) {
 
     try {
+        //to - it is phone number of receiver/beneficiary
+        const session = await getServerSession(authOptions)
+
+        const from = session?.user?.id;
+        if (!from) {
+            throw new p2pTransferError("User not authenticated")
+        }
+
+        const toUser = await prisma.user.findFirst({
+            where: {
+                number: String(to)
+            }
+        });
+
+        //-------amount check -------
+
+        if (!toUser) {
+            throw new p2pTransferError("beneficiary not exist")
+        };
+
+        //-------------- init transaction -------------------------------
         await prisma.$transaction(async (tx) => {
 
             //NOTE - row locking
@@ -58,7 +66,7 @@ export async function p2pTransfer(to: string, amount: number) {
             });
 
             if (!fromBalance || fromBalance.amount < amount) {
-                throw new Error("insufficient balance")
+                throw new p2pTransferError("insufficient balance")
             }
 
             // console.log("before sleep")
@@ -95,13 +103,24 @@ export async function p2pTransfer(to: string, amount: number) {
                 }
             })
         })
+
+
     } catch (error) {
-        console.log("transaction failed")
-        return {
-            error: "transaction failed",
-            message: "insufficient balance",
-            sucess: false
+        if (error instanceof p2pTransferError) {
+            console.log(error.message)
+            return {
+                error: "p2pTransferError",
+                message: error.message,
+                sucess: false
+            }
+        } else {
+            return {
+                error: "Something went wrong",
+                message: "transaction failed",
+                success: false
+            }
         }
+
     }
 
     console.log("completed")
