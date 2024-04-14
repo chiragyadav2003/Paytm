@@ -14,11 +14,16 @@ export function SendCard() {
     const [amount, setAmount] = useState("");
 
     async function handleClick() {
-        const res = await p2pTransfer(number, Number(amount) * 100)
-        if (!res.success) {
-            toast.error(res.message)
+        if (Number(amount) < 0) {
+            toast.error("Negative amount is invalid")
+            return;
         }
-        toast.success(res.message)
+        const res = await p2pTransfer(number, Number(amount) * 100)
+        console.log(res)
+        if (!res.success) {
+            return toast.error(res.message)
+        }
+        return toast.success(res.message)
     }
 
     return (
