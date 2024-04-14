@@ -24,6 +24,7 @@
   ],
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "react-hot-toast": "^2.4.1",
     "recoil": "^0.7.7"
   }
 }
