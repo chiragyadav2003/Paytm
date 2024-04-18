@@ -3,6 +3,7 @@ export default function dashboard() {
         <div>
             Transaction Page
             {/* TODO - add transaction feature */}
+            Hi, i am text for checking ci workflow
         </div>
     )
 }
