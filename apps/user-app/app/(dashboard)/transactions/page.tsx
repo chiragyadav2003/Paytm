@@ -9,7 +9,7 @@ export default function dashboard() {
 
 
 
-
+            <div>this text is to check latest build and CI-Pipeline</div>
 
 
 
