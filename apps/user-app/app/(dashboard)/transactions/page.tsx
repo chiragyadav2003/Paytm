@@ -5,6 +5,17 @@ export default function dashboard() {
             {/* TODO - add transaction feature */}
             Hi, i am text for checking ci workflow
             I am text from sample workflow
+
+
+
+
+
+
+
+
+
+
+
         </div>
     )
 }
