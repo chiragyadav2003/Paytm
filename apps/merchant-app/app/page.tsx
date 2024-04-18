@@ -1,12 +1,15 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./lib/auth";
+import { redirect } from "next/navigation";
 
-import {useBalance} from "@repo/store/useBalance"
-
-export default function() {
-  const balance = useBalance();
+export default async function () {
+  // throw new Error("custom error")
+  const session = await getServerSession(authOptions)
+  if (!session?.user) {
+    redirect("/api/auth/signin")
+  }
   return <div className="flex flex-col justify-center items-center bg-black text-white h-screen text-xl gap-4">
     <h1>Merchant App</h1>
-    hi there {balance}
   </div>
 }
 
