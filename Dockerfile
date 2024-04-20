@@ -15,4 +15,4 @@ RUN npm run db:generate
 # Can you filter the build down to just one app?
 RUN npm run build
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "start-user-app"]
