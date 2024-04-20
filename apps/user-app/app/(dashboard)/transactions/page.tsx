@@ -3,19 +3,9 @@ export default function dashboard() {
         <div>
             Transaction Page
             {/* TODO - add transaction feature */}
-            Hi, i am text for checking ci workflow
-            I am text from sample workflow
-
-
-
-
-
-
-
-
-
-
-
+            <div className="text-xl font-semibold text-slate-800 flex justify-center items-center">
+                checking CI-Pipeline
+            </div>
         </div>
     )
 }
