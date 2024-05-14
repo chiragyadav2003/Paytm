@@ -60,7 +60,7 @@ export const P2PTransaction = async ({
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center">
-                                Rs {transaction.amount / 100}
+                                Rs {transaction.amount}
                             </div>
                         </div>
                     )

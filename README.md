@@ -16,6 +16,32 @@ Here're some of the project's best features:
 
 <h2>📷 Project ScreenShot</h2>
 
+    1. Login / Signup
+
+![1715687470788](image/README/1715687470788.png)
+
+    2. Dashboard
+
+![1715687500495](image/README/1715687500495.png)
+
+    3. Transfer page
+
+![1715687798328](image/README/1715687798328.png)
+
+    4. Transfer money from bank to wallet
+
+![1715687844592](image/README/1715687844592.png)
+![1715687883305](image/README/1715687883305.png)
+
+    5. P2P transaction page
+
+![1715687609259](image/README/1715687609259.png)
+
+    6. Making P2P transfer
+
+![1715688157239](image/README/1715688157239.png)
+![1715688121623](image/README/1715688121623.png)
+
 <br>
 
 <h2>📒 Project Description</h2>
